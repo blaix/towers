@@ -1,19 +1,17 @@
-# Nix Shell Template for Gren
+# A Pretty Nice Website
 
-This is a template to use [gren](https://gren-lang.org/)
-in an isolated [nix shell](https://nixos.wiki/wiki/Development_environment_with_nix-shell)
-that automatically loads with [direnv](https://direnv.net/).
+Initial setup: `npm install`
 
-## Requirements
+Start local dev server: `npm run dev`
 
-* [nix](https://nix.dev/install-nix.html)
-* [direnv](https://direnv.net/)
-* Optional but highly recommended: [nix-direnv](https://github.com/nix-community/nix-direnv)
-* Optional: [degit](https://github.com/Rich-Harris/degit) (otherwise just copy this repo however you want)
+The dev server will restart when files change
+(but you will need to refresh the browser yourself).
 
-## Usage
+## Now what?
 
-1. `degit blaix/nix-shell-gren my-gren-project`
-2. `cd my-gren-project`
-3. `direnv allow`
-4. `gren init` 🎉
+Take a look at `server/src/Main.gren` and `client/src/Counter.gren`.
+
+See the [examples](https://github.com/blaix/prettynice/tree/main/examples)
+
+Create an optimized production build with `npm run build`
+and start the server with `npm start`.
