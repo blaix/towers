@@ -1,0 +1,62 @@
+module Components.Game exposing (component, Model, Msg, Props)
+
+import Transmutable.Html as H exposing (Html)
+import Transmutable.Html.Events as E
+import Prettynice.Component exposing (Component)
+
+
+component : Component Props Model Msg
+component =
+        { init = init
+        , update = update
+        , subscriptions = subscriptions
+        , view = view
+        }
+
+
+-- MODEL
+
+
+type alias Model =
+    {}
+
+
+type alias Props =
+    {}
+
+
+init : Props -> { model : Model, command : Cmd Msg }
+init props =
+    { model = {}
+    , command = Cmd.none
+    }
+
+
+-- UPDATE
+
+
+type Msg
+    = NoOp
+
+
+update : Msg -> Model -> { model : Model, command : Cmd Msg }
+update msg model =
+    case msg of
+        NoOp ->
+            { model = {}
+            , command = Cmd.none
+            }
+
+
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    Sub.none
+
+
+-- VIEW
+
+
+view : Model -> Html Msg
+view model =
+    H.p []
+        [ H.text "game here" ]

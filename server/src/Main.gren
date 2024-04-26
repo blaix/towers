@@ -1,6 +1,6 @@
 module Main exposing (main)
 
-import Gen.Components.Counter
+import Gen.Components.Game
 import Node exposing (Environment)
 import Prettynice.SimpleRouter as Router
 import Prettynice.Request exposing (Request)
@@ -34,15 +34,10 @@ router request response =
         [] -> 
             response
                 |> Response.sendHtml
-                    { title = "My Website"
+                    { title = "Towers"
                     , head = [ linkStylesheet ]
-                    , body = viewHomePage
+                    , body = viewGame
                     }
-
-        -- /hello/justin
-        [ "hello", name ] ->
-            response
-                |> Response.sendText ("Hello, " ++ name)
 
         -- all other paths
         _ ->
@@ -51,17 +46,12 @@ router request response =
                 |> Response.sendText "Not found"
 
 
-viewHomePage : Array (Html msg)
-viewHomePage =
-    [ H.h1 [] [ H.text "Welcome to my website!" ]
-    , H.p [] [ H.text "I made this counter just for you." ]
-    -- This is generated during the prettynice build step from the
-    -- component defined in `client/src/Counter.gren`.
-    , Gen.Components.Counter.init { start = 0 }
+viewGame : Array (Html msg)
+viewGame =
+    [ Gen.Components.Game.init {}
     ]
 
 
 linkStylesheet : Html msg
 linkStylesheet =
-    -- Everything in public/ will be available at the root url path.
     H.link [ A.rel "stylesheet", A.href "/styles.css" ]
