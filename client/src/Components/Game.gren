@@ -65,3 +65,5 @@ map =
 view : Model -> Html Msg
 view model =
     H.text "NEXT: figure out how to have a Playground.game as a Prettynice component."
+    -- MAYBE: Playground.Advanced.picture/etc. that gives you a record with the init, update, etc. to do with as you please!
+    -- (don't like the name "Advanced")
