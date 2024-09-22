@@ -10,7 +10,7 @@ type Tile
 
 
 tileSize =
-    50
+    80
 
 board =
     [ [ Null, Null, Null, Null, Null, Null, Null, Null ]
@@ -23,54 +23,56 @@ board =
     ]
 
 
+boardWidth =
+    board
+        |> Array.get 0
+        |> Maybe.withDefault []
+        |> Array.length
+        |> (*) tileSize
+        |> toFloat
+
+
+boardHeight =
+    board
+        |> Array.length
+        |> (*) tileSize
+        |> toFloat
+
+
 main =
     game view update {}
 
 
 view computer _ =
     board
-        |> Array2d.indexedMap (drawTile computer)
+        |> Array2d.indexedMap drawTile
         |> Array.flatten
         |> group
         |> adjustCenter
         |> Array.singleton
 
 
-drawTile : Computer -> { x : Int, y : Int } -> Tile -> Shape
-drawTile computer { x, y } tile =
+drawTile : { x : Int, y : Int } -> Tile -> Shape
+drawTile { x, y } tile =
     let
         color =
             case tile of
                 Path ->
-                    green
+                    brown
 
                 Null ->
-                    blue
+                    green
     in
     square color tileSize
-        |> moveX ((x |> toFloat) * tileSize)
-        |> moveY ((y |> toFloat) * tileSize)
+        |> moveRight ((x |> toFloat) * tileSize)
+        |> moveDown ((y |> toFloat) * tileSize)
 
 
 adjustCenter : Shape -> Shape
 adjustCenter boardGroup =
-    let
-        boardWidth =
-            Array.get 0 board
-                |> Maybe.withDefault []
-                |> Array.length
-                |> (*) tileSize
-                |> toFloat
-
-        boardHeight =
-            board
-                |> Array.length
-                |> (*) tileSize
-                |> toFloat
-    in
     boardGroup
         |> moveLeft (boardWidth / 2)
-        -- |> moveUp (boardHeight / 2)
+        |> moveUp (boardHeight / 2 - 40) -- not sure why the 40 adjustment is needed?
 
 
 update computer {} =
