@@ -1,6 +1,26 @@
 module Main exposing (main)
 
 import Playground exposing (..)
+import Array2d
+
+
+type Tile
+    = Path
+    | Null
+
+
+tileSize =
+    50
+
+board =
+    [ [ Null, Null, Null, Null, Null, Null, Null, Null ]
+    , [ Null, Path, Path, Path, Path, Null, Null, Null ]
+    , [ Null, Path, Null, Null, Path, Null, Path, Path ]
+    , [ Path, Path, Null, Path, Path, Null, Path, Null ]
+    , [ Null, Null, Null, Path, Null, Null, Path, Null ]
+    , [ Null, Null, Null, Path, Path, Path, Path, Null ]
+    , [ Null, Null, Null, Null, Null, Null, Null, Null ]
+    ]
 
 
 main =
@@ -8,8 +28,50 @@ main =
 
 
 view computer _ =
-    [ square blue 40
-    ]
+    board
+        |> Array2d.indexedMap (drawTile computer)
+        |> Array.flatten
+        |> group
+        |> adjustCenter
+        |> Array.singleton
+
+
+drawTile : Computer -> { x : Int, y : Int } -> Tile -> Shape
+drawTile computer { x, y } tile =
+    let
+        color =
+            case tile of
+                Path ->
+                    green
+
+                Null ->
+                    blue
+    in
+    square color tileSize
+        |> moveX ((x |> toFloat) * tileSize)
+        |> moveY ((y |> toFloat) * tileSize)
+
+
+adjustCenter : Shape -> Shape
+adjustCenter boardGroup =
+    let
+        boardWidth =
+            Array.get 0 board
+                |> Maybe.withDefault []
+                |> Array.length
+                |> (*) tileSize
+                |> toFloat
+
+        boardHeight =
+            board
+                |> Array.length
+                |> (*) tileSize
+                |> toFloat
+    in
+    boardGroup
+        |> moveLeft (boardWidth / 2)
+        -- |> moveUp (boardHeight / 2)
+
 
 update computer {} =
     {}
